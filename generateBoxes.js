@@ -3,7 +3,7 @@
 window.onload = function() {
     const amountofWinBoxes = 5;
     let time = 0;
-    createCubes(50);
+    createCubes(getRandomInt(200));
     createWinBoxes(5);
     updateGameState(time, amountofWinBoxes);
     console.log("loaded");
