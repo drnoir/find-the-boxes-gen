@@ -1,0 +1,24 @@
+<html>
+<head>
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="generateBoxes.js"></script>
+</head>
+<body>
+<a-scene physics="debug: true">
+    <a-assets>
+        <img id="fac" src="fac.jpg">
+    </a-assets>
+    <a-entity id="camera" position="0 5 0">
+        <!-- Camera Entity -->
+        <a-entity id="camera" camera look-controls wasd-controls kinematic-body player></a-entity>
+    </a-entity>
+<!--    <a-entity  static-body  environment="preset: starry; groundColor: #fff; seed: 5; grid:none; playArea:100;"></a-entity>-->
+    <a-plane static-body rotation="-90 0 0" position="0 0 0" width="400" height="400" color="#7BC8A4"></a-plane>
+    <a-entity text="value: Hello World;"></a-entity>
+    <a-sky color="#000"></a-sky>
+</a-scene>
+</body>
+</html>
