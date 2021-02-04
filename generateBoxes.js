@@ -107,7 +107,7 @@ function createCubes(amount) {
         let color = getRandomColor(colorArr);
         building.setAttribute('position', {x: posx, y: 10, z: posz});
         building.object3D.scale.set(scale, scale, scale);
-        // building.setAttribute('material', 'src', 'fac.jpg');
+        building.setAttribute('material', 'src', 'brick.jpg');
         building.setAttribute('material', 'color', color);
         document.querySelector('a-scene').appendChild(building);
         building.setAttribute('body', {type: "dynamic"})
