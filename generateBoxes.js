@@ -1,11 +1,11 @@
 // script for generating buildings / game logic etc
+let amountofWinBoxes = 5;
 
 window.onload = function() {
-    const amountofWinBoxes = 5;
     let time = 0;
     createCubes(getRandomInt(200));
     createWinBoxes(5);
-    updateGameState(time, amountofWinBoxes);
+    updateGameState(time);
     console.log("loaded");
 };
 
@@ -13,7 +13,24 @@ AFRAME.registerComponent('player', {
     init: function() {
         this.el.addEventListener('collide', function(e) {
             console.log('Player has collided with ', e.detail.body.el);
-            console.log(e.getAttribute('name'));
+            e.detail.target.el; // Original entity (playerEl).
+            e.detail.body.el; // Other entity, which playerEl touched.
+            e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
+            e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
+        });
+    }
+})
+
+AFRAME.registerComponent('winbox', {
+    init: function() {
+        this.el.addEventListener('collide', function(e) {
+
+            if (e.detail.body.el.id === "camera") {
+                const box = document.querySelector('a-box');
+                let winboxRemove = e.detail.target.el;
+                box.parentNode.removeChild(winboxRemove);
+                decrementScore();
+            }
             e.detail.target.el; // Original entity (playerEl).
             e.detail.body.el; // Other entity, which playerEl touched.
             e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
@@ -26,16 +43,19 @@ function restart(){
     location.reload();
 }
 
-function  updateGameState(time, amountofWinBoxes){
+function decrementScore(){
+    amountofWinBoxes--;
+};
+
+function  updateGameState(time){
     setInterval(function(){
         time++;
-        console.log(time);
+        console.log(time, amountofWinBoxes);
         if (time===100){
             restart();
         }
         if (amountofWinBoxes===0){
             alert("you found all the boxes");
-            restart();
         }
 
 
@@ -67,6 +87,7 @@ function createWinBoxes(amount) {
         winbox.object3D.scale.set(scale, scale, scale);
         winbox.setAttribute('material', 'color', 'white');
         winbox.setAttribute('name', 'winbox');
+        winbox.setAttribute('winbox', '');
         document.querySelector('a-scene').appendChild(winbox);
         winbox.setAttribute('body', {type: "dynamic"})
     }
