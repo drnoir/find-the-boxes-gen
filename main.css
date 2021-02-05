@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
+
 body{
     background: black;
+    font-family: 'Play', sans-serif;
 }
 
 #playBtn{
@@ -11,6 +14,7 @@ body{
     width:400px;
     background:white;
     z-index:1000;
+    padding:1em;
 }
 
 #Win{
@@ -23,35 +27,39 @@ body{
     background:green;
     z-index:1000;
     visibility: hidden;
+    padding:2em;
 }
 
 .timer{
     position: absolute;
-    top:0;
+    top:5%;
     left:0;
     background:white;
     z-index:1000;
     font-size:2em;
+    padding:10px;
 }
 
 .cubes{
     position: absolute;
-    top:0;
-    left:90%;
+    top:5%;
+    left:85%;
     background:white;
     z-index:1000;
     font-size:2em;
     width:200px;
+    padding:10px;
 }
 
 .whiteCubes{
     position: absolute;
     top:20%;
-    left:90%;
+    left:85%;
     background:white;
     z-index:1000;
     font-size:2em;
     width:200px;
+    padding:10px;
 }
 
 

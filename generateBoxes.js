@@ -1,21 +1,13 @@
 // script for generating buildings / game logic etc
 const buildingsNumber = getRandomInt(200);
-let amountofWinBoxes = Math.floor(buildingsNumber/4);
-
+let amountofWinBoxes = Math.floor(buildingsNumber/10);
+console.log(amountofWinBoxes)
+const totalTime  = buildingsNumber*3
 
 window.onload = function() {
-
     const playBtn = document.getElementById("playBtn");
     const Win = document.getElementById("Win");
-
     playBtn.addEventListener('click',beginGame);
-    // createCubes(buildingsNumber);
-    // cubesCreated.innerHTML=buildingsNumber.toString();
-    // cubesTotal.innerHTML=amountofWinBoxes.toString();
-    // createWinBoxes(amountofWinBoxes);
-    // updateGameState(time);
-    // document.getElementById('myAudio').play();
-    // console.log("loaded");
 };
 
 AFRAME.registerComponent('player', {
@@ -52,6 +44,7 @@ AFRAME.registerComponent('winbox', {
 function beginGame(){
     let time = 0;
     const timeLeft = document.getElementById('timeLeft');
+    const totalTimeElm = document.getElementById('totalTime');
     const cubesCreated = document.getElementById('cubesCreated');
     const cubesLeft= document.getElementById('cubesLeft');
     const cubesTotal= document.getElementById('totalCubes');
@@ -59,6 +52,7 @@ function beginGame(){
     createCubes(buildingsNumber);
     cubesCreated.innerHTML=buildingsNumber.toString();
     cubesTotal.innerHTML=amountofWinBoxes.toString();
+    totalTimeElm.innerHTML=totalTime.toString();
     createWinBoxes(amountofWinBoxes);
     updateGameState(time);
     document.getElementById('myAudio').play();
@@ -81,7 +75,7 @@ function  updateGameState(time){
         timeLeft.innerHTML=time;
         cubesLeft.innerHTML=amountofWinBoxes;
         console.log(time, amountofWinBoxes);
-        if (time===100){
+        if (time===totalTime){
             restart();
         }
         if (amountofWinBoxes===0){
@@ -100,10 +94,10 @@ function getRandomColor(colors){
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-function createWinBoxes(amount) {
-    let winBoxNum = amount;
+function createWinBoxes() {
+    // let winBoxNum = amount;
     let i;
-    for (i = 0; i < winBoxNum; i++) {
+    for (i = 0; i < amountofWinBoxes; i++) {
         let winbox = document.createElement('a-box');
         console.log("created box");
         let posx =getRandomInt(80);
