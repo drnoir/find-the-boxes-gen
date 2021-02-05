@@ -1,0 +1,61 @@
+body{
+    background: black;
+}
+
+#playBtn{
+    font-size:4em;
+    position: absolute;
+    margin: auto;
+    top:25%;
+    left:40%;
+    width:400px;
+    background:white;
+    z-index:1000;
+}
+
+#Win{
+    font-size:4em;
+    position: absolute;
+    margin: auto;
+    top:25%;
+    left:40%;
+    width:400px;
+    background:green;
+    z-index:1000;
+    visibility: hidden;
+}
+
+.timer{
+    position: absolute;
+    top:0;
+    left:0;
+    background:white;
+    z-index:1000;
+    font-size:2em;
+}
+
+.cubes{
+    position: absolute;
+    top:0;
+    left:90%;
+    background:white;
+    z-index:1000;
+    font-size:2em;
+    width:200px;
+}
+
+.whiteCubes{
+    position: absolute;
+    top:20%;
+    left:90%;
+    background:white;
+    z-index:1000;
+    font-size:2em;
+    width:200px;
+}
+
+
+a-scene {
+    height: 100%;
+    width: 100%;
+}

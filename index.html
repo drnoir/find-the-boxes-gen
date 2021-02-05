@@ -5,9 +5,24 @@
     <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="generateBoxes.js"></script>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-<a-scene physics="debug: true">
+<audio id="myAudio" src="sound/music.wav"></audio>
+<audio id="pickup" src="sound/pickup.wav"></audio>
+<div class ="timer">
+    Time Elapsed: <span id="timeLeft"></span> / 100
+</div>
+<div class ="cubes">
+    Cubes Created: <span id="cubesCreated"></span> / 200
+</div>
+<div class ="whiteCubes">
+    White Cubes Remaining: <span id="cubesLeft"></span> / <span id="totalCubes"></span>
+</div>
+<div id="playBtn">Start</div>
+<div id="Win">YOU WON</div>
+<div id="myEmbeddedScene">
+<a-scene embedded physics="debug: false">
     <a-assets>
         <img id="fac" src="fac.jpg">
         <img id="sky" src="cloud.jpg">
@@ -19,9 +34,9 @@
         <a-entity id="camera" camera look-controls wasd-controls kinematic-body player></a-entity>
     </a-entity>
 <!--    <a-entity  static-body  environment="preset: starry; groundColor: #fff; seed: 5; grid:none; playArea:100;"></a-entity>-->
-    <a-plane src="#snow" static-body rotation="-90 0 0" position="0 0 0" width="400" height="400" color="#0c4c0c"></a-plane>
-    <a-entity text="value: Hello World;"></a-entity>
+    <a-plane src="#snow" static-body rotation="-90 0 0" position="0 0 0" width="800" height="800" color="#0c4c0c"></a-plane>
     <a-sky src="#sky"></a-sky>
 </a-scene>
+</div>
 </body>
 </html>
