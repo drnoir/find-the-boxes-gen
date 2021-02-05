@@ -1,7 +1,9 @@
-#CubeGen
+# CubeGen
 ### by Chris Godber
 
-#Game Aim
+![alt text](https://github.com/drnoir/find-the-boxes-gen/blob/main/cubegenpic.jpg?raw=true)
+
+# Game Aim
 ## Find the white boxes
 
 Experimental A-Frame project / game using AFrame, AFrame physics component / vanilla js
