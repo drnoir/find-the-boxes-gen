@@ -11,7 +11,7 @@ body{
     margin: auto;
     top:25%;
     left:40%;
-    width:400px;
+    width:auto;
     background:white;
     z-index:1000;
     padding:1em;
@@ -23,11 +23,18 @@ body{
     margin: auto;
     top:25%;
     left:40%;
-    width:400px;
+    width:auto;
     background:green;
     z-index:1000;
     visibility: hidden;
     padding:2em;
+    color:white;
+}
+
+#restart{
+    background:white;
+    font-size:1em;
+    display: block;
 }
 
 .timer{

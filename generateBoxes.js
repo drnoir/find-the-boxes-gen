@@ -67,6 +67,14 @@ function restart(){
 
 function decrementScore(){
     amountofWinBoxes--;
+
+    //check for win condition
+    if (amountofWinBoxes===0){
+        document.getElementById("Win").style.visibility = "visible";
+        document.getElementById("restart").addEventListener('click',restart);
+        console.log("Win Condition met");
+    }
+
 }
 
 function  updateGameState(time){
@@ -77,10 +85,6 @@ function  updateGameState(time){
         console.log(time, amountofWinBoxes);
         if (time===totalTime){
             restart();
-        }
-        if (amountofWinBoxes===0){
-            document.getElementById("Win").style.visibility = "visible";
-            console.log("Win Condition met");
         }
 
     }, 1000);
@@ -104,7 +108,7 @@ function createWinBoxes() {
         let posz =getRandomInt(100);
         let scale = getRandomInt(4);
 
-        winbox.setAttribute('position', {x: posx, y: 20, z: posz});
+        winbox.setAttribute('position', {x: posx, y: 250, z: posz});
         winbox.object3D.scale.set(scale, scale, scale);
         winbox.setAttribute('material', 'color', 'white');
         winbox.setAttribute('name', 'winbox');
@@ -127,9 +131,9 @@ function createCubes(amount) {
         let colorArr = ['red', 'green', 'blue', 'brown'];
         let textureArr = []
         let color = getRandomColor(colorArr);
-        building.setAttribute('position', {x: posx, y: 10, z: posz});
+        building.setAttribute('position', {x: posx, y: 250, z: posz});
         building.object3D.scale.set(scale, scale, scale);
-        building.setAttribute('material', 'src', 'brick.jpg');
+        building.setAttribute('material', 'src', 'energy.jpg');
         building.setAttribute('material', 'color', color);
         document.querySelector('a-scene').appendChild(building);
         building.setAttribute('body', {type: "dynamic"})

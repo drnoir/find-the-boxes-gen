@@ -1,7 +1,6 @@
 <html>
 <head>
     <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
     <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="generateBoxes.js"></script>
@@ -20,7 +19,9 @@
     White Cubes Remaining: <span id="cubesLeft"></span> / <span id="totalCubes"></span>
 </div>
 <div id="playBtn">Start</div>
-<div id="Win">YOU WON</div>
+<div id="Win">YOU WON
+<button id ="restart">Restart</button>
+</div>
 <div id="myEmbeddedScene">
 <a-scene embedded physics="debug: false">
     <a-assets>
@@ -28,14 +29,22 @@
         <img id="sky" src="cloud.jpg">
         <img id="snow" src="snow.jpg">
         <img id="brick" src="brick.jpg">
+        <img id="energy" src="energy.jpg">
     </a-assets>
     <a-entity id="camera" position="0 5 0">
         <!-- Camera Entity -->
         <a-entity id="camera" camera look-controls wasd-controls kinematic-body player></a-entity>
     </a-entity>
-<!--    <a-entity  static-body  environment="preset: starry; groundColor: #fff; seed: 5; grid:none; playArea:100;"></a-entity>-->
-    <a-plane src="#snow" static-body rotation="-90 0 0" position="0 0 0" width="800" height="800" color="#0c4c0c"></a-plane>
-    <a-sky src="#sky"></a-sky>
+
+    <a-box static-body material="src:#energy; repeat:3 2" position="0  350.5 350" rotation="0 0 0"  width ="800" height = "800"></a-box>
+    <a-box static-body material="src:#energy; repeat:3 2" position="350  350.5 0" rotation="0 90 0"  width ="800" height = "800"></a-box>
+    <a-box static-body material="src:#energy; repeat:3 2" position="-350  350.5 0" rotation="0 90 0"  width ="800" height = "800"></a-box>
+
+    <a-box static-body material="src:#energy; repeat:3 2" position="0  350.5 -350" rotation="0 0 0"  width ="800" height = "800"></a-box>
+
+    <a-box material="src:#energy; repeat: 4 1" static-body position="0 0 800" depth="2" height="100" width="700"></a-box>
+    <a-plane src="#energy" static-body rotation="-90 0 0" position="0 0 0" width="800" height="800"></a-plane>
+    <a-sky src="#energy"></a-sky>
 </a-scene>
 </div>
 </body>
