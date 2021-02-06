@@ -1,8 +1,7 @@
 // script for generating buildings / game logic etc
 const buildingsNumber = getRandomInt(200);
 let amountofWinBoxes = Math.floor(buildingsNumber/10);
-console.log(amountofWinBoxes)
-const totalTime  = buildingsNumber*3
+const totalTime  = buildingsNumber*3;
 
 window.onload = function() {
     const playBtn = document.getElementById("playBtn");
@@ -18,31 +17,49 @@ AFRAME.registerComponent('player', {
             e.detail.body.el; // Other entity, which playerEl touched.
             e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
             e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
-        });
-    }
-})
+            console.log('NAME'+e.detail.body.el.className);
 
-AFRAME.registerComponent('winbox', {
-    init: function() {
-        this.el.addEventListener('collide', function(e) {
-
-            if (e.detail.body.el.id === "camera") {
+            if (e.detail.body.el.className=== "winbox")
+            {
+                console.log("winbox");
                 const box = document.querySelector('a-box');
-                let winboxRemove = e.detail.target.el;
+                let winboxRemove = e.detail.body.el;
                 box.parentNode.removeChild(winboxRemove);
                 document.getElementById('pickup').play();
                 decrementScore();
             }
-            e.detail.target.el; // Original entity (playerEl).
-            e.detail.body.el; // Other entity, which playerEl touched.
-            e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
-            e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
+
         });
     }
 })
 
+AFRAME.registerComponent('gamebox', {
+    init: function() {
+        this.direction = 1;
+        this.position = new THREE.Vector3();
+        this.position.copy(this.el.object3D.position);
+        setTimeout(() => {
+            this.ready = true;
+        }, 3000);
+    },
+
+    tick: function() {
+        if (!this.ready) return;
+        var position = this.el.object3D.position.y;
+        if (position <= 0) {
+            this.direction = 1;
+        } else if (position >= 5) {
+            this.direction = -1;
+        }
+        this.el.object3D.position.set(this.position.x, position + 0.05 * this.direction, this.position.z);
+    }
+});
+
+
+
 function beginGame(){
     let time = 0;
+
     const timeLeft = document.getElementById('timeLeft');
     const totalTimeElm = document.getElementById('totalTime');
     const cubesCreated = document.getElementById('cubesCreated');
@@ -54,11 +71,13 @@ function beginGame(){
     cubesTotal.innerHTML=amountofWinBoxes.toString();
     totalTimeElm.innerHTML=totalTime.toString();
     createWinBoxes(amountofWinBoxes);
-    updateGameState(time);
+
     document.getElementById('myAudio').play();
     document.getElementById('myAudio').volume = 0.5;
     console.log("Game Started");
     playBtn.style.visibility = "hidden";
+    updateGameState(time);
+
 }
 
 function restart(){
@@ -90,6 +109,7 @@ function  updateGameState(time){
     }, 1000);
 }
 
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -99,7 +119,6 @@ function getRandomColor(colors){
 }
 
 function createWinBoxes() {
-    // let winBoxNum = amount;
     let i;
     for (i = 0; i < amountofWinBoxes; i++) {
         let winbox = document.createElement('a-box');
@@ -113,6 +132,8 @@ function createWinBoxes() {
         winbox.setAttribute('material', 'color', 'white');
         winbox.setAttribute('name', 'winbox');
         winbox.setAttribute('winbox', '');
+        winbox.setAttribute('class', 'winbox');
+        winbox.setAttribute('material', 'src', 'energy.jpg');
         document.querySelector('a-scene').appendChild(winbox);
         winbox.setAttribute('body', {type: "dynamic"})
     }
@@ -129,10 +150,10 @@ function createCubes(amount) {
         let posz =getRandomInt(100);
         let scale = getRandomInt(15);
         let colorArr = ['red', 'green', 'blue', 'brown'];
-        let textureArr = []
         let color = getRandomColor(colorArr);
         building.setAttribute('position', {x: posx, y: 250, z: posz});
         building.object3D.scale.set(scale, scale, scale);
+        building.setAttribute('gamebox', '');
         building.setAttribute('material', 'src', 'energy.jpg');
         building.setAttribute('material', 'color', color);
         document.querySelector('a-scene').appendChild(building);
