@@ -12,7 +12,10 @@ body{
     top:25%;
     left:40%;
     width:auto;
-    background:white;
+    background:#3d86b3;
+    color:white;
+    border:white 2px solid;
+    border-radius:5px;
     z-index:1000;
     padding:1em;
 }
@@ -24,17 +27,19 @@ body{
     top:25%;
     left:40%;
     width:auto;
-    background:green;
+    background:black;
     z-index:1000;
     visibility: hidden;
-    padding:2em;
     color:white;
+    padding: 0.5em;
 }
 
 #restart{
-    background:white;
-    font-size:1em;
-    display: block;
+    font-size:2em;
+    background:#3d86b3;
+    color:white;
+    border:none;
+    border-radius:5px;
 }
 
 .timer{
@@ -46,6 +51,17 @@ body{
     font-size:2em;
     padding:10px;
 }
+
+.health{
+    position: absolute;
+    top:20%;
+    left:0;
+    background:white;
+    z-index:1000;
+    font-size:2em;
+    padding:10px;
+}
+
 
 .cubes{
     position: absolute;

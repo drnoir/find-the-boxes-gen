@@ -1,54 +1,41 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
-    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-    <script src="generateBoxes.js"></script>
-    <link rel="stylesheet" href="main.css">
+    <meta charset="UTF-8">
+    <title>CubeGen 3.0</title>
+    <link rel="stylesheet" href="menu.css">
 </head>
 <body>
-<audio id="myAudio" src="sound/music.wav"></audio>
-<audio id="pickup" src="sound/pickup.wav"></audio>
-<div class ="timer">
-    Time Elapsed: <span id="timeLeft"></span> / <span id="totalTime"></span>
-</div>
-<div class ="cubes">
-    Cubes Created: <span id="cubesCreated"></span> / 200
-</div>
-<div class ="whiteCubes">
-    White Cubes Remaining: <span id="cubesLeft"></span> / <span id="totalCubes"></span>
-</div>
-<div id="playBtn">Start</div>
-<div id="Win">YOU WON
-<button id ="restart">Restart</button>
-</div>
-<div id="myEmbeddedScene">
-<a-scene embedded physics="debug: false; gravity: 0;" >
-    <a-assets>
-        <img id="fac" src="fac.jpg">
-        <img id="sky" src="cloud.jpg">
-        <img id="snow" src="snow.jpg">
-        <img id="brick" src="brick.jpg">
-        <img id="energy" src="energy.jpg">
-    </a-assets>
+<div class="container">
+    <div class="center">
+        <h1>CubeGen 3.0 by Chris Godber</h1>
+        <img src="energy.jpg" class="image"/>
+        <p>Collect all the white boxes before the timer runs out </p>
 
-    <!-- Dim ambient lighting. -->
-    <a-light type="ambient" color="white" intensity="0.5"></a-light>
-    <a-light type="point" color="39FF14" position="0 500 0" decay="1" angle="90"></a-light>
+        <h2>Select Difficulty to start</h2>
+        <button>Easy</button>
+        <button>Normal</button>
+        <button>Hard</button>
+        <button>Insane</button>
 
-<!--    camera -->
-    <a-entity id="rig" movement-controls="fly: true; speed: 5" kinematic-body player>
-        <a-entity id="camera" camera position="0 1.6 0" look-controls></a-entity>
-    </a-entity>
-<!--environment-->
-    <a-box static-body material="src:#energy; repeat:3 2" position="0 800 0" rotation="0 180 0"  width ="800" height = "800"  depth="800"></a-box>
-    <a-box static-body material="src:#energy; repeat:3 2" position="800  350.5 -350" rotation="0 0 0"  width ="800" height = "800"></a-box>
-    <a-box static-body material="src:#energy; repeat:3 2" position="0  350.5 350" rotation="0 0 0"  width ="800" height = "800"></a-box>
-    <a-box static-body material="src:#energy; repeat:3 2" position="350  350.5 0" rotation="0 90 0"  width ="800" height = "800"></a-box>
-    <a-box static-body material="src:#energy; repeat:3 2" position="-350  350.5 0" rotation="0 90 0"  width ="800" height = "800"></a-box>
-    <a-box static-body material="src:#energy; repeat:3 2" position="0  350.5 -350" rotation="0 0 0"  width ="800" height = "800"></a-box>
-    <a-plane src="#energy" static-body rotation="-90 0 0" position="0 0 0" width="800" height="800"></a-plane>
-</a-scene>
+        <h3>Easy</h3>
+        <p>Maximum Boxes : 50</p>
+        <p>Maximum White Cubes : 5</p>
+        <p>Maximum Time Limit : </p>
+        <h3>Normal</h3>
+        <p>Maximum Boxes : 200</p>
+        <p>Maximum White Cubes : 20</p>
+        <p>Maximum Time Limit : </p>
+        <h3>Hard</h3>
+        <p>Maximum Boxes : 500</p>
+        <p>Maximum White Cubes : 50</p>
+        <p>Maximum Time Limit : </p>
+        <h3>Insane</h3>
+        <p>Maximum Boxes : 1000</p>
+        <p>Maximum White Cubes : 100</p>
+        <p>Maximum Time Limit : </p>
+
+    </div>
 </div>
 </body>
 </html>
