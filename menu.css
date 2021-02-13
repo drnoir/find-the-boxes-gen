@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
 
 body{
-
     font-family: 'Play', sans-serif;
     color:white;
-    /*background:#3d86b3;*/
-    background-image: url("energy.jpg") ;
+    background-image: url("bg.jpg") ;
+    background-size: cover;
+}
+
+a{
+    color:white;
 }
 
 .container{

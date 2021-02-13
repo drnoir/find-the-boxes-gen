@@ -1,36 +1,35 @@
 // script for generating buildings / game logic etc
-const buildingsNumber = getRandomInt(10, 200);
+const buildingsNumber = getRandomInt(700, 800);
 
-let amountofWinBoxes = Math.floor(buildingsNumber/10);
-let amountofnegBoxes = Math.floor(buildingsNumber/20);
+let amountofWinBoxes = Math.floor(buildingsNumber / 10);
+let amountofnegBoxes = Math.floor(buildingsNumber / 20);
 let gamestarted = false;
-
-const totalTime  = buildingsNumber*3;
+let firstDamage = false;
+const totalTime = buildingsNumber * 2;
 let health = 10;
 
-window.onload = function() {
+window.onload = function () {
     const playBtn = document.getElementById("playBtn");
     const Win = document.getElementById("Win");
-    playBtn.addEventListener('click',beginGame);
+    playBtn.addEventListener('click', beginGame);
 };
 
 AFRAME.registerComponent('player', {
-    init: function() {
-        this.el.addEventListener('collide', function(e) {
+    init: function () {
+        this.el.addEventListener('collide', function (e) {
             console.log('Player has collided with ', e.detail.body.el);
             e.detail.target.el; // Original entity (playerEl).
             e.detail.body.el; // Other entity, which playerEl touched.
             e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
             e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
-            console.log('NAME'+e.detail.body.el.className);
+            console.log('NAME' + e.detail.body.el.className);
 
-            if (gamestarted === true){
+            if (gamestarted === true) {
                 document.getElementById('collide').play();
                 document.getElementById('collide').volume = 0.3;
             }
 
-            if (e.detail.body.el.className=== "winbox")
-            {
+            if (e.detail.body.el.className === "winbox") {
                 console.log("winbox");
                 const box = document.querySelector('a-box');
                 let winboxRemove = e.detail.body.el;
@@ -39,8 +38,7 @@ AFRAME.registerComponent('player', {
                 decrementScore();
             }
 
-            if (e.detail.body.el.className=== "negbox")
-            {
+            if (e.detail.body.el.className === "negbox") {
                 console.log("negbox");
                 const box = document.querySelector('a-box');
                 document.getElementById('damage').play();
@@ -52,7 +50,7 @@ AFRAME.registerComponent('player', {
 })
 
 AFRAME.registerComponent('gamebox', {
-    init: function() {
+    init: function () {
         this.direction = 1;
         this.position = new THREE.Vector3();
         this.position.copy(this.el.object3D.position);
@@ -61,7 +59,7 @@ AFRAME.registerComponent('gamebox', {
         }, 3000);
     },
 
-    tick: function() {
+    tick: function () {
         if (!this.ready) return;
         var position = this.el.object3D.position.y;
         if (position <= 0) {
@@ -74,21 +72,23 @@ AFRAME.registerComponent('gamebox', {
 });
 
 
-
-function beginGame(){
+function beginGame() {
     let time = 0;
     gamestarted = true;
+
+    document.getElementById('warp').play();
+    document.getElementById('warp').volume = 0.4;
 
     const timeLeft = document.getElementById('timeLeft');
     const totalTimeElm = document.getElementById('totalTime');
     const cubesCreated = document.getElementById('cubesCreated');
-    const cubesLeft= document.getElementById('cubesLeft');
-    const cubesTotal= document.getElementById('totalCubes');
-    const healthLeft= document.getElementById('healthLeft');
+    const cubesLeft = document.getElementById('cubesLeft');
+    const cubesTotal = document.getElementById('totalCubes');
+    const healthLeft = document.getElementById('healthLeft');
     createCubes(buildingsNumber);
-    cubesCreated.innerHTML=buildingsNumber.toString();
-    cubesTotal.innerHTML=amountofWinBoxes.toString();
-    totalTimeElm.innerHTML=totalTime.toString();
+    cubesCreated.innerHTML = buildingsNumber.toString();
+    cubesTotal.innerHTML = amountofWinBoxes.toString();
+    totalTimeElm.innerHTML = totalTime.toString();
     healthLeft.innerHTML = health.toString();
 
     createWinBoxes(amountofWinBoxes);
@@ -101,33 +101,42 @@ function beginGame(){
 
 }
 
-function restart(){
+function restart() {
+
     location.reload();
 }
 
-function decrementScore(){
+function decrementScore() {
     amountofWinBoxes--;
 
     //check for win condition
-    if (amountofWinBoxes===0){
+    if (amountofWinBoxes === 0) {
         document.getElementById("Win").style.visibility = "visible";
-        document.getElementById("restart").addEventListener('click',restart);
+        document.getElementById("restart").addEventListener('click', restart);
         console.log("Win Condition met");
     }
 
 }
 
-function  updateGameState(time){
-    setInterval(function(){
+function updateGameState(time) {
+    setInterval(function () {
         time++;
-        timeLeft.innerHTML=time;
-        cubesLeft.innerHTML=amountofWinBoxes;
-        healthLeft.innerHTML=health;
+        timeLeft.innerHTML = time;
+        cubesLeft.innerHTML = amountofWinBoxes;
+        healthLeft.innerHTML = health;
         console.log(time, amountofWinBoxes);
-        if (time===totalTime){
+        if (time === totalTime) {
             restart();
         }
-        if (health===0){
+        if (health <= 4) {
+            document.getElementById('overheat').play();
+            document.getElementById('overheat').volume = 0.1;
+            if (firstDamage === false) {
+                document.getElementById('strobe').setAttribute("visible", true)
+                firstDamage = true;
+            }
+        }
+        if (health === 0) {
             restart();
         }
 
@@ -141,7 +150,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getRandomColor(colors){
+function getRandomColor(colors) {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
@@ -150,9 +159,9 @@ function createWinBoxes() {
     for (i = 0; i < amountofWinBoxes; i++) {
         let winbox = document.createElement('a-box');
         console.log("created box");
-        let posx =getRandomInt(10, 80);
-        let posz =getRandomInt(10,100);
-        let scale = getRandomInt(5,10);
+        let posx = getRandomInt(10, 80);
+        let posz = getRandomInt(10, 100);
+        let scale = getRandomInt(5, 10);
 
         winbox.setAttribute('position', {x: posx, y: 250, z: posz});
         winbox.object3D.scale.set(scale, scale, scale);
@@ -171,9 +180,9 @@ function createnNegBoxes() {
     for (i = 0; i < amountofnegBoxes; i++) {
         let negbox = document.createElement('a-box');
         console.log("created box");
-        let posx =getRandomInt(10,80);
-        let posz =getRandomInt(10,100);
-        let scale = getRandomInt(5,10);
+        let posx = getRandomInt(10, 80);
+        let posz = getRandomInt(10, 100);
+        let scale = getRandomInt(5, 10);
 
         negbox.setAttribute('position', {x: posx, y: 250, z: posz});
         negbox.object3D.scale.set(scale, scale, scale);
@@ -194,9 +203,9 @@ function createCubes(amount) {
     for (i = 0; i < boxNum; i++) {
         let building = document.createElement('a-box');
         console.log("created box");
-        let posx =getRandomInt(10,80);
-        let posz =getRandomInt(10,100);
-        let scale = getRandomInt(10,15);
+        let posx = getRandomInt(10, 80);
+        let posz = getRandomInt(10, 100);
+        let scale = getRandomInt(10, 15);
         let colorArr = ['red', 'green', 'blue', 'brown'];
         let color = getRandomColor(colorArr);
         building.setAttribute('position', {x: posx, y: 250, z: posz});
