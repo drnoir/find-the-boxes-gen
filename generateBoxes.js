@@ -1,7 +1,9 @@
 // script for generating buildings / game logic etc
-const buildingsNumber = getRandomInt(10, 200) ;
+const buildingsNumber = getRandomInt(10, 200);
+
 let amountofWinBoxes = Math.floor(buildingsNumber/10);
 let amountofnegBoxes = Math.floor(buildingsNumber/20);
+let gamestarted = false;
 
 const totalTime  = buildingsNumber*3;
 let health = 10;
@@ -21,6 +23,11 @@ AFRAME.registerComponent('player', {
             e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
             e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
             console.log('NAME'+e.detail.body.el.className);
+
+            if (gamestarted === true){
+                document.getElementById('collide').play();
+                document.getElementById('collide').volume = 0.3;
+            }
 
             if (e.detail.body.el.className=== "winbox")
             {
@@ -70,6 +77,7 @@ AFRAME.registerComponent('gamebox', {
 
 function beginGame(){
     let time = 0;
+    gamestarted = true;
 
     const timeLeft = document.getElementById('timeLeft');
     const totalTimeElm = document.getElementById('totalTime');

@@ -11,7 +11,7 @@
 <audio id="myAudio" src="sound/music.wav"></audio>
 <audio id="pickup" src="sound/pickup.wav"></audio>
 <audio id="damage" src="sound/damage.wav"></audio>
-
+<audio id="collide" src="sound/collision.wav"></audio>
 <div class ="timer">
     Time Elapsed: <span id="timeLeft"></span> / <span id="totalTime"></span>
 </div>
@@ -29,6 +29,7 @@
     <h2>YOU WON</h2>
 <button id ="restart">Restart</button>
 </div>
+
 <div id="myEmbeddedScene">
 <a-scene embedded physics="debug: false; gravity: 0;" >
     <a-assets>
@@ -38,16 +39,26 @@
         <img id="brick" src="brick.jpg">
         <img id="energy" src="energy.jpg">
         <img id="energyneg" src="energyneg.jpg">
+        <img id="hud" src="hud.png">
     </a-assets>
 
     <!-- Dim ambient lighting. -->
     <a-light type="ambient" color="white" intensity="0.5"></a-light>
     <a-light type="point" color="39FF14" position="0 500 0" decay="1" angle="90"></a-light>
 
+
 <!--    camera -->
     <a-entity id="rig" movement-controls="fly: true; speed: 5" kinematic-body player>
-        <a-entity id="camera" camera position="0 1.6 0" look-controls></a-entity>
+        <a-entity id="camera" camera position="0 5 0" look-controls>
+<!--            <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="0 0 -1"-->
+<!--                      material="color: gray; opacity: 0.5"></a-entity>-->
+            <a-entity geometry="primitive: plane; height: 2; width: 5" position="0 0 -1"
+                      material="src:#hud; opacity: 0.999"></a-entity>
+
+<!--            <a-image src="#hud" width="200" height="300"  position="0 0 -1"></a-image>-->
+        </a-entity>
     </a-entity>
+
 <!--environment-->
     <a-box static-body material="src:#energy; repeat:3 2" position="0 800 0" rotation="0 180 0"  width ="800" height = "800"  depth="800"></a-box>
     <a-box static-body material="src:#energy; repeat:3 2" position="800  350.5 -350" rotation="0 0 0"  width ="800" height = "800"></a-box>
@@ -57,6 +68,7 @@
     <a-box static-body material="src:#energy; repeat:3 2" position="0  350.5 -350" rotation="0 0 0"  width ="800" height = "800"></a-box>
     <a-plane src="#energy" static-body rotation="-90 0 0" position="0 0 0" width="800" height="800"></a-plane>
 </a-scene>
+
 </div>
 </body>
 </html>
