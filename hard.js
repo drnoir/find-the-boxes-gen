@@ -128,6 +128,9 @@ function updateGameState(time) {
         if (time === totalTime) {
             restart();
         }
+        if (health === 0) {
+            restart();
+        }
         if (health <= 4) {
             document.getElementById('overheat').play();
             document.getElementById('overheat').volume = 0.1;
@@ -136,9 +139,7 @@ function updateGameState(time) {
                 firstDamage = true;
             }
         }
-        if (health === 0) {
-            restart();
-        }
+
 
     }, 1000);
 }
