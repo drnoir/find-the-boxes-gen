@@ -18,3 +18,9 @@ The number of cubes is randomly generated according to the difficulty
 Controls: Keyboard: WASD - Movement Mouse: Click and drag to rotate 
 
 Play on Itch.io - https://drnoir.itch.io/cubegen 
+
+# Assets
+https://www.vecteezy.com/video/3706970-4k-3d-seamless-loop-of-traveling-to-glow-stars-filed-on-black-background-graphic-motion-overlay-effect-loop-with-galaxy-sky-twinkling-light-in-the-space-animation-galaxy-exploration
+4K 3D seamless loop of traveling to glow stars filed on black background. 
+Graphic motion overlay effect loop with galaxy sky twinkling light in the 
+space animation. Galaxy exploration. Stock Videos by Vecteezy
