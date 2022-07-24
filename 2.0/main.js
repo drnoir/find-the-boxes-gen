@@ -11,7 +11,10 @@ let health = 10;
 window.onload = function () {
     const playBtn = document.getElementById("playBtn");
     const Win = document.getElementById("Win");
-    playBtn.addEventListener('click', beginGame);
+    beginGame();
+    // playBtn.addEventListener('click', beginGame);
+
+    // LOAD GAME IN BG? PRELOADER?
 };
 
 AFRAME.registerComponent('player', {
@@ -25,6 +28,7 @@ AFRAME.registerComponent('player', {
             console.log('NAME' + e.detail.body.el.className);
 
             if (gamestarted === true) {
+                // ADD LOADING ANIMATION - NEED WAY TO DETERMINE LOAD FINISHED
                 document.getElementById('collide').play();
                 document.getElementById('collide').volume = 0.3;
             }
@@ -44,7 +48,6 @@ AFRAME.registerComponent('player', {
                 document.getElementById('damage').play();
                 health--;
             }
-
 
             if (e.detail.body.el.className === "planetAura") {
                 console.log("planet Aura");
@@ -100,7 +103,7 @@ function beginGame() {
     const cubesLeft = document.getElementById('cubesLeft');
     const cubesTotal = document.getElementById('totalCubes');
     const healthLeft = document.getElementById('healthLeft');
-    CreateStart();
+    CreateStart(15);
     createCubes(buildingsNumber);
     cubesCreated.innerHTML = buildingsNumber.toString();
     cubesTotal.innerHTML = amountofWinBoxes.toString();
@@ -118,7 +121,6 @@ function beginGame() {
 }
 
 function restart() {
-
     location.reload();
 }
 
@@ -131,7 +133,6 @@ function decrementScore() {
         document.getElementById("restart").addEventListener('click', restart);
         console.log("Win Condition met");
     }
-
 }
 
 function updateGameState(time) {
@@ -171,31 +172,35 @@ function getRandomColor(colors) {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-function CreateStart() {
-    // function to create a monolith with random position
+function CreateStart(num) {
+    let i;
+    for (i = 0; i < amountofWinBoxes; i++) {
+        // function to create planets with random position
         let planet = document.createElement('a-sphere');
         let aura = document.createElement('a-sphere');
-        let posx = getRandomInt(10,900);
-        let posz = getRandomInt(10,900);
-        let posy = getRandomInt(10,900);
+        let posx = getRandomInt(100, 20000);
+        let posz = getRandomInt(1000, 10000);
+        let posy = getRandomInt(800, 10000);
 
         let scale = getRandomInt(500, 500);
-        let auraScale = getRandomInt(scale+25,scale+25);
-        planet.setAttribute('position', {x: posx, y: posy , z: posz});
+        let auraScale = getRandomInt(scale + 25, scale + 25);
+        planet.setAttribute('position', {x: posx, y: posy, z: posz});
         planet.object3D.scale.set(scale, scale, scale);
         planet.setAttribute('planet', '');
         planet.setAttribute('material', 'src', 'energy.jpg');
         planet.setAttribute('material', 'color', 'red');
         planet.setAttribute('class', 'planet');
 
-        aura.setAttribute('position', {x: posx, y: posy , z: posz});
-        aura.setAttribute('position', {x: posx, y: posy , z: posz});
-        aura.object3D.scale.set(auraScale ,auraScale , auraScale );
+        aura.setAttribute('position', {x: posx, y: posy, z: posz});
+        planet.setAttribute('material', 'color', 'light-blue');
+        aura.object3D.scale.set(auraScale, auraScale, auraScale);
         aura.setAttribute('planetAura', '');
         document.querySelector('a-scene').appendChild(planet);
         document.querySelector('a-scene').appendChild(aura);
-        planet.setAttribute('body', { type: 'dynamic', mass:"80", linearDamping: "0.5"})
-        aura.setAttribute('body', { type: 'static'})
+        planet.setAttribute('body', {type: 'dynamic', mass: "80", linearDamping: "0.5"})
+        aura.setAttribute('body', {type: 'static'});
+        aura.setAttribute('glow', 'enabled', 'true');
+    }
 }
 
 function createWinBoxes() {

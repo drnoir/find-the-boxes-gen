@@ -6,41 +6,38 @@
   <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
 <!--  random enviroment scripts-->
   <script src="https://unpkg.com/aframe-environment-component@1.2.0/dist/aframe-environment-component.min.js"></script>
-  <script src="main.js"></script>
+    <script src="glow.js"></script>
+    <script src="main.js"></script>
   <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
+<!--AUDIO-->
 <audio id="myAudio" src="sound/music.wav"></audio>
 <audio id="pickup" src="sound/pickup.wav"></audio>
 <audio id="damage" src="sound/damage.wav"></audio>
 <audio id="collide" src="sound/collision.wav"></audio>
 <audio id="overheat" src="sound/overheating.wav"></audio>
 <audio id="warp" src="sound/warp-drive.wav"></audio>
+
+<!--UI-->
 <div class ="timer">
   Time Elapsed: <span id="timeLeft"></span> / <span id="totalTime"></span>
 </div>
-<div class ="health">
-  Health Remaining: <span id="healthLeft"></span>
-</div>
-<div class ="cubes">
-  Cubes Created: <span id="cubesCreated"></span> / 200
-</div>
-<div class ="whiteCubes">
-  Energy Cubes Remaining: <span id="cubesLeft"></span> / <span id="totalCubes"></span>
-</div>
-<div id="playBtn">Start</div>
+
+<!--<div id="playBtn">Start</div>-->
 <div id="Win">
   <h2>YOU WON</h2>
   <button id ="restart">Restart</button>
 </div>
+
+<!--SCENE-->
 <div id="myEmbeddedScene">
   <a-scene embedded physics="debug: false; gravity: 0;" background="color: black" >
 <!--    assets textures -->c
     <a-assets>
       <img id="fac" src="fac.jpg">
 <!--      <video id="spaceBG" autoplay loop="true" src="spaceBG.mp4"> </video>-->
-      <img id="snow" src="snow.jpg">
-      <img id="brick" src="brick.jpg">
       <img id="energy" src="energy.jpg">
       <img id="energyneg" src="energyneg.jpg">
         <img id="spaceBG" src="spaceBG.jpg">
@@ -49,7 +46,7 @@
     </a-assets>
     <!-- Dim ambient lighting. -->
     <a-light type="ambient" color="white" intensity="0.5"></a-light>
-    <a-light type="point" color="39FF14" position="0 500 0" decay="1" angle="90"></a-light>
+    <a-light type="point" color="#39FF14" position="0 500 0" decay="1" angle="90"></a-light>
     <!--    camera -->
     <a-entity id="rig" movement-controls="fly: true; speed: 30" kinematic-body player>
       <a-entity id="camera" camera position="0 5 0" look-controls>
@@ -65,9 +62,9 @@
       </a-entity>
     </a-entity>
     <!--environment-->
-    <a-entity obj-model="obj: #asteroid-obj; mtl: #snow"></a-entity>
+<!--    <a-entity obj-model="obj: #asteroid-obj; mtl: #snow"></a-entity>-->
     <!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
-        <a-skybox  src="#spaceBG"></a-skybox>
+      <a-sky src="#spaceBG"></a-sky>
   </a-scene>
 
 </div>
