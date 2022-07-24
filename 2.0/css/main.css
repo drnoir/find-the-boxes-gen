@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
+html{
+    background:black;
+}
+body{
+    /*background: black;*/
+    font-family: 'Play', sans-serif;
+    background: none;
+}
+
+#playBtn{
+    font-size:4em;
+    position: absolute;
+    margin: auto;
+    top:25%;
+    left:40%;
+    width:auto;
+    background:#3d86b3;
+    color:white;
+    border:white 2px solid;
+    border-radius:5px;
+    z-index:1000;
+    padding:1em;
+}
+
+#Win{
+    font-size:4em;
+    position: absolute;
+    margin: auto;
+    top:25%;
+    left:40%;
+    width:auto;
+    background:black;
+    z-index:1000;
+    visibility: hidden;
+    color:white;
+    padding: 0.5em;
+}
+
+#restart{
+    font-size:2em;
+    background:#3d86b3;
+    color:white;
+    border:none;
+    border-radius:5px;
+}
+
+.timer{
+    position: absolute;
+    top:5%;
+    left:0;
+    background:white;
+    z-index:1000;
+    font-size:2em;
+    padding:10px;
+}
+
+.health{
+    position: absolute;
+    top:20%;
+    left:0;
+    background:white;
+    z-index:1000;
+    font-size:2em;
+    padding:10px;
+}
+
+
+
+.cubes{
+    position: absolute;
+    top:5%;
+    left:85%;
+    background:white;
+    z-index:1000;
+    font-size:2em;
+    width:200px;
+    padding:10px;
+}
+
+.whiteCubes{
+    position: absolute;
+    top:20%;
+    left:85%;
+    background:white;
+    z-index:1000;
+    font-size:2em;
+    width:200px;
+    padding:10px;
+}
+
+
+a-scene {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}

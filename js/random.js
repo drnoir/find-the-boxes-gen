@@ -1,5 +1,5 @@
 // script for generating buildings / game logic etc
-const buildingsNumber = getRandomInt(100, 500);
+const buildingsNumber = getRandomInt(100, 400);
 
 let amountofWinBoxes = Math.floor(buildingsNumber / 10);
 let amountofnegBoxes = Math.floor(buildingsNumber / 20);
@@ -45,6 +45,14 @@ AFRAME.registerComponent('player', {
                 health--;
             }
 
+
+            if (e.detail.body.el.className === "planetAura") {
+                console.log("planet Aura");
+                const planet = document.querySelector('a-sphere');
+                document.getElementById('collect').play();
+                spaceMana++;
+            }
+
         });
     }
 })
@@ -69,6 +77,7 @@ AFRAME.registerComponent('gamebox', {
         }
         this.el.object3D.position.set(this.position.x, position + 0.05 * this.direction, this.position.z);
     }
+
 });
 
 
@@ -85,6 +94,7 @@ function beginGame() {
     const cubesLeft = document.getElementById('cubesLeft');
     const cubesTotal = document.getElementById('totalCubes');
     const healthLeft = document.getElementById('healthLeft');
+    CreateStart();
     createCubes(buildingsNumber);
     cubesCreated.innerHTML = buildingsNumber.toString();
     cubesTotal.innerHTML = amountofWinBoxes.toString();
@@ -155,6 +165,35 @@ function getRandomColor(colors) {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
+function CreateStart() {
+    // function to create a monolith with random position
+        let planet = document.createElement('a-sphere');
+        let aura = document.createElement('a-sphere');
+        let posx = getRandomInt(10,900);
+        let posz = getRandomInt(10,900);
+        let posy = getRandomInt(10,900);
+
+        let scale = getRandomInt(500, 500);
+        let auraScale = getRandomInt(scale+25,scale+25);
+    planet.setAttribute('position', {x: posx, y: posy , z: posz});
+    planet.object3D.scale.set(scale, scale, scale);
+    planet.setAttribute('planet', '');
+    planet.setAttribute('material', 'src', 'energy.jpg');
+    planet.setAttribute('material', 'color', 'red');
+    planet.setAttribute('class', 'planet');
+
+    aura.setAttribute('position', {x: posx, y: posy , z: posz});
+    aura.setAttribute('position', {x: posx, y: posy , z: posz});
+    aura.object3D.scale.set(auraScale ,auraScale , auraScale );
+    aura.setAttribute('planetAura', '');
+    aura.setAttribute('material', 'color', 'white');
+
+    document.querySelector('a-scene').appendChild(planet);
+    planet.appendChild(aura);
+    planet.setAttribute('body', { type: 'dynamic', mass:"80", linearDamping: "0.5"})
+
+}
+
 function createWinBoxes() {
     let i;
     for (i = 0; i < amountofWinBoxes; i++) {
@@ -172,7 +211,7 @@ function createWinBoxes() {
         winbox.setAttribute('class', 'winbox');
         winbox.setAttribute('material', 'src', 'energy.jpg');
         document.querySelector('a-scene').appendChild(winbox);
-        winbox.setAttribute('body', {type: "dynamic"})
+        winbox.setAttribute('body', { type: 'dynamic', mass:"20", linearDamping: "0.1"})
     }
 }
 
@@ -193,7 +232,7 @@ function createnNegBoxes() {
         negbox.setAttribute('class', 'negbox');
         negbox.setAttribute('material', 'src', 'energyneg.jpg');
         document.querySelector('a-scene').appendChild(negbox);
-        negbox.setAttribute('body', {type: "dynamic"})
+        negbox.setAttribute('body', { type: 'dynamic', mass:"20", linearDamping: "0.2"})
     }
 }
 
@@ -215,6 +254,6 @@ function createCubes(amount) {
         building.setAttribute('material', 'src', 'energy.jpg');
         building.setAttribute('material', 'color', color);
         document.querySelector('a-scene').appendChild(building);
-        building.setAttribute('body', {type: "dynamic"})
+        building.setAttribute('body', { type: 'dynamic', mass:"20", linearDamping: "0.1"})
     }
 }
