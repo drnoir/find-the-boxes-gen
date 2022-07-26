@@ -7,7 +7,6 @@ A resource collection webgame based on CubeGen
 
 ### Current Version Plaent Miners! - (1.0) / CubeGen (2.0)
 Procedurally generated resource collection game
-
 Collect Mana in space, make money. 
 
 Controls: Keyboard: WASD 

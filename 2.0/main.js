@@ -1,15 +1,14 @@
 // script for generating buildings / game logic etc
-const buildingsNumber = getRandomInt(100, 400);
 
-let amountofWinBoxes = Math.floor(buildingsNumber / 10);
-let amountofnegBoxes = Math.floor(buildingsNumber / 20);
+// global game vars
+const starsNum = getRandomInt(800, 900);
 let gamestarted = false;
 let firstDamage = false;
-const totalTime = buildingsNumber * 3;
+const totalTime = starsNum * 3;
 let health = 10;
 
 window.onload = function () {
-    const playBtn = document.getElementById("playBtn");
+    // const playBtn = document.getElementById("playBtn");
     const Win = document.getElementById("Win");
     beginGame();
     // playBtn.addEventListener('click', beginGame);
@@ -49,6 +48,7 @@ AFRAME.registerComponent('player', {
                 health--;
             }
 
+
             if (e.detail.body.el.className === "planetAura") {
                 console.log("planet Aura");
                 const planet = document.querySelector('a-sphere');
@@ -83,12 +83,12 @@ AFRAME.registerComponent('gamebox', {
 
 });
 
-AFRAME.registerShader('auraFX', {
-    schema: {
-        color: {type: 'color', is: 'uniform', default: 'white'},
-        opacity: {type: 'number', is: 'uniform', default: 1.0}
-    }
-});
+// AFRAME.registerShader('auraFX', {
+//     schema: {
+//         color: {type: 'color', is: 'uniform', default: 'white'},
+//         opacity: {type: 'number', is: 'uniform', default: 1.0}
+//     }
+// });
 
 function beginGame() {
     let time = 0;
@@ -103,24 +103,24 @@ function beginGame() {
     const cubesLeft = document.getElementById('cubesLeft');
     const cubesTotal = document.getElementById('totalCubes');
     const healthLeft = document.getElementById('healthLeft');
-    CreateStart(15);
-    createCubes(buildingsNumber);
-    cubesCreated.innerHTML = buildingsNumber.toString();
-    cubesTotal.innerHTML = amountofWinBoxes.toString();
-    totalTimeElm.innerHTML = totalTime.toString();
-    healthLeft.innerHTML = health.toString();
+    const portalNum = 3;
 
-    createWinBoxes(amountofWinBoxes);
-    createnNegBoxes(amountofnegBoxes);
+    createStars(starsNum);
+    totalTimeElm.innerHTML = totalTime.toString();
+    // healthLeft.innerHTML = health.toString()
+    createPlanets(starsNum/90);
+    createPortals(portalNum);
+
     document.getElementById('myAudio').play();
     document.getElementById('myAudio').volume = 0.2;
     console.log("Game Started");
-    playBtn.style.visibility = "hidden";
+    // playBtn.style.visibility = "hidden";
     updateGameState(time);
 
 }
 
 function restart() {
+
     location.reload();
 }
 
@@ -133,15 +133,16 @@ function decrementScore() {
         document.getElementById("restart").addEventListener('click', restart);
         console.log("Win Condition met");
     }
+
 }
 
 function updateGameState(time) {
     setInterval(function () {
         time++;
         timeLeft.innerHTML = time;
-        cubesLeft.innerHTML = amountofWinBoxes;
-        healthLeft.innerHTML = health;
-        console.log(time, amountofWinBoxes);
+        // cubesLeft.innerHTML = amountofWinBoxes;
+        // healthLeft.innerHTML = health;
+        // console.log(time, amountofWinBoxes);
         if (time === totalTime) {
             restart();
         }
@@ -157,7 +158,6 @@ function updateGameState(time) {
             }
         }
 
-
     }, 1000);
 }
 
@@ -172,17 +172,17 @@ function getRandomColor(colors) {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-function CreateStart(num) {
+
+function createPlanets(planetsNum) {
     let i;
-    for (i = 0; i < amountofWinBoxes; i++) {
+    for (i = 0; i <planetsNum ; i++) {
         // function to create planets with random position
         let planet = document.createElement('a-sphere');
         let aura = document.createElement('a-sphere');
-        let posx = getRandomInt(100, 20000);
-        let posz = getRandomInt(1000, 10000);
-        let posy = getRandomInt(800, 10000);
-
-        let scale = getRandomInt(500, 500);
+        let posx = getRandomInt(100, 30000);
+        let posz = getRandomInt(1000, 80000);
+        let posy = getRandomInt(800, 60000);
+        let scale = getRandomInt(500, 900);
         let auraScale = getRandomInt(scale + 25, scale + 25);
         planet.setAttribute('position', {x: posx, y: posy, z: posz});
         planet.object3D.scale.set(scale, scale, scale);
@@ -192,77 +192,54 @@ function CreateStart(num) {
         planet.setAttribute('class', 'planet');
 
         aura.setAttribute('position', {x: posx, y: posy, z: posz});
-        planet.setAttribute('material', 'color', 'light-blue');
+        planet.setAttribute('material', 'color', 'blue');
         aura.object3D.scale.set(auraScale, auraScale, auraScale);
         aura.setAttribute('planetAura', '');
         document.querySelector('a-scene').appendChild(planet);
         document.querySelector('a-scene').appendChild(aura);
         planet.setAttribute('body', {type: 'dynamic', mass: "80", linearDamping: "0.5"})
-        aura.setAttribute('body', {type: 'static'});
-        aura.setAttribute('glow', 'enabled', 'true');
+        aura.setAttribute('body', {type: 'static'})
     }
 }
-
-function createWinBoxes() {
+function createPortals(portalsNum){
     let i;
-    for (i = 0; i < amountofWinBoxes; i++) {
-        let winbox = document.createElement('a-box');
-        let posx = getRandomInt(10, 80);
-        let posz = getRandomInt(10, 100);
-        let posy = getRandomInt(10, 150);
-        let scale = getRandomInt(5, 80);
+    for (i = 0; i < 3; i++) {
+        let portal = document.createElement('a-sky');
+        let posxP = getRandomInt(10000, 20000);
+        let poszP = getRandomInt(10000, 20000);
+        let posyP = getRandomInt(10000, 20000);
+        let scaleP = getRandomInt(500, 500);
 
-        winbox.setAttribute('position', {x: posx, y: posy , z: posz});
-        winbox.object3D.scale.set(scale, scale, scale);
-        winbox.setAttribute('material', 'color', 'white');
-        winbox.setAttribute('name', 'winbox');
-        winbox.setAttribute('winbox', '');
-        winbox.setAttribute('class', 'winbox');
-        winbox.setAttribute('material', 'src', 'energy.jpg');
-        document.querySelector('a-scene').appendChild(winbox);
-        winbox.setAttribute('body', { type: 'dynamic', mass:"20", linearDamping: "0.1"})
-    }
-}
-
-function createnNegBoxes() {
-    let i;
-    for (i = 0; i < amountofnegBoxes; i++) {
-        let negbox = document.createElement('a-box');
-        let posx = getRandomInt(10, 100);
-        let posz = getRandomInt(10, 200);
-        let posy = getRandomInt(10, 150);
-        let scale = getRandomInt(40 , 80);
-
-        negbox.setAttribute('position', {x: posx, y: posy , z: posz});
-        negbox.object3D.scale.set(scale, scale, scale);
-        negbox.setAttribute('material', 'color', 'white');
-        negbox.setAttribute('name', 'negbox');
-        negbox.setAttribute('negbox', '');
-        negbox.setAttribute('class', 'negbox');
-        negbox.setAttribute('material', 'src', 'energyneg.jpg');
-        document.querySelector('a-scene').appendChild(negbox);
-        negbox.setAttribute('body', { type: 'dynamic', mass:"20", linearDamping: "0.2"})
-    }
-}
-
-
-function createCubes(amount) {
-    let boxNum = amount;
-    let i;
-    for (i = 0; i < boxNum; i++) {
-        let building = document.createElement('a-box');
-        let posx = getRandomInt(10, 100);
-        let posz = getRandomInt(10, 200);
-        let posy = getRandomInt(10, 150);
-        let scale = getRandomInt(40, 80);
-        let colorArr = ['red', 'green', 'blue', 'brown'];
+        portal.setAttribute('position', {x:posxP , y: posyP, z: poszP});
+        portal.object3D.scale.set(scaleP, scaleP, scaleP);
+        let colorArr = ['white', 'orange', 'red'];
         let color = getRandomColor(colorArr);
-        building.setAttribute('position', {x: posx, y: posy , z: posz});
-        building.object3D.scale.set(scale, scale, scale);
-        building.setAttribute('gamebox', '');
-        building.setAttribute('material', 'src', 'energy.jpg');
-        building.setAttribute('material', 'color', color);
-        document.querySelector('a-scene').appendChild(building);
-        building.setAttribute('body', { type: 'dynamic', mass:"20", linearDamping: "0.1"})
+        portal.setAttribute('material', 'src',  color);
+        portal.setAttribute('name', 'portal');
+        portal.setAttribute('class', 'portal');
+        portal.setAttribute('material', 'src', '#spaceBG_v');
+        document.querySelector('a-scene').appendChild(portal);
     }
+}
+
+    function createStars(amount) {
+        let starNum = amount;
+        let i;
+        for (i = 0; i < starNum; i++) {
+            let star = document.createElement('a-sphere');
+            let posx = getRandomInt(-10000, 80000);
+            let posz = getRandomInt(0,3000);
+            let posy = getRandomInt(0,3000);
+            let scale = getRandomInt(5,8);
+            star.setAttribute('position', {x: posx, y: posy, z: posz});
+            star.object3D.scale.set(scale, scale, scale);
+            star.setAttribute('gamebox', '');
+            star.setAttribute('material', 'src', 'energy.jpg');
+            star.setAttribute('material', 'color', 'white');
+            document.querySelector('a-scene').appendChild(star);
+            star.setAttribute('body', {type: 'dynamic', mass: "1", linearDamping: "0.1"})
+            let starLight = document.createElement('a-light');
+            // starLight.setAttribute('type','ambient', 'color','white', 'intensity','0.1');
+            star.appendChild(starLight);
+        }
 }
