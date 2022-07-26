@@ -1,7 +1,7 @@
 // script for generating buildings / game logic etc
 
 // global game vars
-const starsNum = getRandomInt(800, 900);
+const starsNum = getRandomInt(1000,1200);
 let gamestarted = false;
 let firstDamage = false;
 const totalTime = starsNum * 3;
@@ -82,13 +82,6 @@ AFRAME.registerComponent('gamebox', {
     }
 
 });
-
-// AFRAME.registerShader('auraFX', {
-//     schema: {
-//         color: {type: 'color', is: 'uniform', default: 'white'},
-//         opacity: {type: 'number', is: 'uniform', default: 1.0}
-//     }
-// });
 
 function beginGame() {
     let time = 0;
@@ -183,24 +176,29 @@ function createPlanets(planetsNum) {
         let posz = getRandomInt(1000, 80000);
         let posy = getRandomInt(800, 60000);
         let scale = getRandomInt(500, 900);
-        let auraScale = getRandomInt(scale + 25, scale + 25);
         planet.setAttribute('position', {x: posx, y: posy, z: posz});
         planet.object3D.scale.set(scale, scale, scale);
         planet.setAttribute('planet', '');
         planet.setAttribute('material', 'src', 'energy.jpg');
         planet.setAttribute('material', 'color', 'red');
         planet.setAttribute('class', 'planet');
-
-        aura.setAttribute('position', {x: posx, y: posy, z: posz});
-        planet.setAttribute('material', 'color', 'blue');
-        aura.object3D.scale.set(auraScale, auraScale, auraScale);
-        aura.setAttribute('planetAura', '');
+        let colorArr = ['#880000', '#274E13', '#3D85C6','#7F6000'];
+        let color = getRandomColor(colorArr);
+        planet.setAttribute('material', 'color', color);
         document.querySelector('a-scene').appendChild(planet);
-        document.querySelector('a-scene').appendChild(aura);
         planet.setAttribute('body', {type: 'dynamic', mass: "80", linearDamping: "0.5"})
-        aura.setAttribute('body', {type: 'static'})
+
     }
 }
+
+
+// aura ode to reuse
+// let auraScale = getRandomInt(scale + 25, scale + 25);
+// aura.setAttribute('body', {type: 'static'})
+// aura.setAttribute('position', {x: posx, y: posy, z: posz});
+// aura.object3D.scale.set(auraScale, auraScale, auraScale);
+// aura.setAttribute('planetAura', '');
+
 function createPortals(portalsNum){
     let i;
     for (i = 0; i < 3; i++) {
@@ -234,12 +232,11 @@ function createPortals(portalsNum){
             star.setAttribute('position', {x: posx, y: posy, z: posz});
             star.object3D.scale.set(scale, scale, scale);
             star.setAttribute('gamebox', '');
+            let colorArr = ['#880000', '#274E13', '#3D85C6','#7F6000'];
+            let color = getRandomColor(colorArr);
             star.setAttribute('material', 'src', 'energy.jpg');
-            star.setAttribute('material', 'color', 'white');
+            star.setAttribute('material', 'color', color);
             document.querySelector('a-scene').appendChild(star);
-            star.setAttribute('body', {type: 'dynamic', mass: "1", linearDamping: "0.1"})
-            let starLight = document.createElement('a-light');
-            // starLight.setAttribute('type','ambient', 'color','white', 'intensity','0.1');
-            star.appendChild(starLight);
+            star.setAttribute('body', {type: 'dynamic', mass: "1", linearDamping: "0.1"});
         }
 }
